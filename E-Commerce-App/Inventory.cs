@@ -35,10 +35,18 @@ namespace E_Commerce_App
             }
         }
 
-        //public bool RemoveProductFromInventory()
-        //{
-
-        //}
+        public bool RemoveProductFromInventory(string productName)
+        {
+            if (this.inventoryList.ContainsKey(productName))
+            {
+                this.inventoryList.Remove(productName);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
         public void SearchProductInInventory(string productName)
         {
             if (this.inventoryList.ContainsKey(productName))

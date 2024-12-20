@@ -19,6 +19,14 @@
 
             inventory1.DisplayAllAvailableProducts();
             inventory1.SearchProductInInventory("Apple");
+            if(inventory1.RemoveProductFromInventory("Apple"))
+            {
+                Console.WriteLine("Product removed Successfully");
+            }
+            else
+            {
+                Console.WriteLine("Product not found.");
+            }
         }
     }
 }
