@@ -39,10 +39,18 @@ namespace E_Commerce_App
         //{
 
         //}
-        //public Product SearchProductInInventory(string productName)
-        //{
+        public void SearchProductInInventory(string productName)
+        {
+            if (this.inventoryList.ContainsKey(productName))
+            {
+                Console.WriteLine("Product Found");
+            }
+            else
+            {
+                Console.WriteLine("Product Not Found");
+            }
 
-        //}
+        }
         //public bool ReduceQuantityOfProductFromInventory(string productName) 
         //{
 

@@ -18,6 +18,7 @@
             Product product5 = new Product("Cashew", 12, 700, "Kgs");
 
             inventory1.DisplayAllAvailableProducts();
+            inventory1.SearchProductInInventory("Apple");
         }
     }
 }
