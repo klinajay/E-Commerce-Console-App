@@ -23,15 +23,25 @@ namespace E_Commerce_App
                 Console.WriteLine($"{pair.Value.productName}        {pair.Value.availableQuantity}        {pair.Value.quantityType}        {pair.Value.ProductPrice}");
             }
         }
-        public void AddProductToInventory(Product product)
+
+        public void IncreaseQuantityOfExhistingProduct(Product product)
+        {
+            this.inventoryList.Add(product.productName, product);
+            
+        }
+
+        //returns 1 if product already exhists , returns 2 if new product added. 
+        public int AddProductToInventory(Product product)
         {
             if (this.inventoryList.ContainsKey(product.productName))
             {
-                //AddExhistingProduct(product);
+                IncreaseQuantityOfExhistingProduct(product);
+                return 1;
             }
             else
             {
                 this.inventoryList.Add(product.productName, product);
+                return 2;
             }
         }
 
@@ -47,21 +57,42 @@ namespace E_Commerce_App
                 return false;
             }
         }
-        public void SearchProductInInventory(string productName)
+
+        
+        public Product SearchProductInInventory(string productName)
         {
             if (this.inventoryList.ContainsKey(productName))
             {
                 Console.WriteLine("Product Found");
+                Product product = this.inventoryList[productName];
+                return product;
             }
             else
             {
                 Console.WriteLine("Product Not Found");
+                return null;
             }
 
         }
-        //public bool ReduceQuantityOfProductFromInventory(string productName) 
+        //public bool ReduceQuantityOfProductFromInventory(string productName)
         //{
-
+        //    if (this.inventoryList.ContainsKey(productName))
+        //    {
+        //        Product product = SearchProductInInventory(productName);
+        //        if (product != null)
+        //        {
+        //            if (this.inventoryList.Remove(productName))
+        //            {
+        //                Console.WriteLine("Product removed successfully");
+        //                return true;
+        //            }
+        //            else
+        //            {
+        //                Console.WriteLine(//what can be errors????to remove product
+        //            }
+                    
+        //        }
+        //    }
         //}
         //public void DisplayProductInformation(string productName)
         //{
