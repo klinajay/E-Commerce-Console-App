@@ -10,7 +10,7 @@ namespace E_Commerce_App
     {
         private double price;
         public string productName;
-        public  double availableQuantity;
+        public double availableQuantity;
         public string quantityType;
 
         public double ProductPrice
@@ -19,12 +19,13 @@ namespace E_Commerce_App
             {
                 return price;
             }
-            set {
+            set
+            {
                 price = value;
             }
         }
 
-        public Product(string productName, double availableQuantity, double price, string  quantityType)
+        public Product(string productName, double availableQuantity, double price, string quantityType)
         {
             this.price = price;
             this.productName = productName;
@@ -32,7 +33,7 @@ namespace E_Commerce_App
             this.quantityType = quantityType;
         }
 
-        
+
 
         public bool CheckAvailability(Product product)
         {
@@ -40,6 +41,6 @@ namespace E_Commerce_App
             else return false;
         }
 
-        
+
     }
 }
