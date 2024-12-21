@@ -17,16 +17,16 @@
             inventory1.AddProductToInventory(product4);
             Product product5 = new Product("Cashew", 12, 700, "Kgs");
 
-            inventory1.DisplayAllAvailableProducts();
-            inventory1.SearchProductInInventory("Apple");
-            if(inventory1.RemoveProductFromInventory("Apple"))
-            {
-                Console.WriteLine("Product removed Successfully");
-            }
-            else
-            {
-                Console.WriteLine("Product not found.");
-            }
+            //inventory1.DisplayAllAvailableProducts();
+            inventory1.SearchProductInInventory("rce");
+            //if (inventory1.RemoveProductFromInventory(null)) 
+            //{
+            //    Console.WriteLine("Product removed Successfully");
+            //}
+            //else
+            //{
+            //    Console.WriteLine("Product not found.");
+            //}
         }
     }
 }
