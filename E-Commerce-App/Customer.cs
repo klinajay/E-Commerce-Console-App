@@ -8,20 +8,20 @@ namespace E_Commerce_App
 {
     internal class Customer : AbstractClassPerson
     {
-        private SortedList<string,double> cart;
+        private SortedList<string, double> cart;
         private string customerId;
         //private SortedList<string, Product> Orders;
 
-        public Customer(String name , string email , string phone , string password , string type , int age , string userName)
+        public Customer(String name, string email, string phone, string password, string type, int age, string userName)
         {
             personName = name;
-            cart = new SortedList<string,double>();
+            cart = new SortedList<string, double>();
             SetEmail(email, true);
-            SetPhoneNumber(phone , true);
-            SetAge(age , true);
-            SetPassword(password , true);
-            SetTypeCustomerOrVendor(type , true);
-            SetUsername(userName , true);
+            SetPhoneNumber(phone, true);
+            SetAge(age, true);
+            SetPassword(password, true);
+            SetTypeCustomerOrVendor(type, true);
+            SetUsername(userName, true);
         }
         public SortedList<string, double> GetCart()
         {
@@ -47,12 +47,17 @@ namespace E_Commerce_App
             return isAuthorized ? typeCustormerOrVendor : "Authorization required!";
         }
 
+        public string GetCustomerId()
+        {
+            return customerId;
+        }
+
         public override void SetEmail(string newEmail, bool isAuthorized)
         {
             if (isAuthorized)
             {
                 email = newEmail;
-                Console.WriteLine("Email updated successfully.");
+
             }
             else
             {
@@ -65,7 +70,7 @@ namespace E_Commerce_App
             if (isAuthorized)
             {
                 phoneNumber = newPhoneNumber;
-                Console.WriteLine("Phone number updated successfully.");
+
             }
             else
             {
@@ -78,7 +83,7 @@ namespace E_Commerce_App
             if (isAuthorized)
             {
                 age = newAge;
-                Console.WriteLine("Age updated successfully.");
+
             }
             else
             {
@@ -91,7 +96,7 @@ namespace E_Commerce_App
             if (isAuthorized)
             {
                 typeCustormerOrVendor = newType;
-                Console.WriteLine("Type updated successfully.");
+
             }
             else
             {
@@ -103,24 +108,54 @@ namespace E_Commerce_App
             if (isAuthorized)
             {
                 password = newPassword;
-                Console.WriteLine("password updated successfully.");
+
             }
             else
             {
                 Console.WriteLine("Authorization required to update password.");
             }
         }
-        public void SetUsername(string userName , bool isAuthorized)
+        public void SetUsername(string userName, bool isAuthorized)
         {
 
             if (isAuthorized)
             {
                 customerId = userName;
-                Console.WriteLine("Username updated successfully.");
+
             }
             else
             {
                 Console.WriteLine("Authorization required to update password.");
+            }
+        }
+        public void AddToCart(Product product, double quantity, Inventory inventory)
+        {
+
+            if (inventory.inventoryList.ContainsKey(product.productName))
+            {
+                if (inventory.inventoryList[product.productName].availableQuantity >= quantity)
+                {
+                    cart.Add(product.productName, quantity);
+                }
+                else
+                {
+                    Console.WriteLine($"Only {product.availableQuantity} {product.quantityType} {product.productName} is available.");
+                }
+
+            }
+            else
+            {
+                Console.WriteLine("Enter valid product name.");
+            }
+
+
+            
+        }
+        public void ViewCart()
+        {
+            foreach (var item in cart)
+            {
+                Console.WriteLine($"{item.Key} {item.Value}");
             }
         }
     }
