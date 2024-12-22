@@ -12,14 +12,66 @@ namespace E_Commerce_App
         protected bool paymentStatus;
         protected string paymentId;
         protected double totalBill;
+        protected SortedList <string , double> products;
 
-        public OnlineOrder(Customer customer, bool paymentStatus, string paymentId, double totalBill)
+        public OnlineOrder(Customer customer, bool paymentStatus, string paymentId)
         {
             this.customer = customer;
             this.paymentStatus = paymentStatus;
             this.paymentId = paymentId;
             this.totalBill = 0;
+            products = customer.GetCart();
         }
+        public Customer GetCustomer()
+        {
+            return customer;
+        }
+
+        public void SetCustomer(Customer customer)
+        {
+            this.customer = customer;
+        }
+
+        public bool GetPaymentStatus()
+        {
+            return paymentStatus;
+        }
+
+        public void SetPaymentStatus(bool paymentStatus)
+        {
+            this.paymentStatus = paymentStatus;
+        }
+
+        public string GetPaymentId()
+        {
+            return paymentId;
+        }
+
+        public void SetPaymentId(string paymentId)
+        {
+            this.paymentId = paymentId;
+        }
+
+        public double GetTotalBill()
+        {
+            return totalBill;
+        }
+
+        public void SetTotalBill(double totalBill)
+        {
+            this.totalBill = totalBill;
+        }
+
+        public SortedList<string, double> GetProducts()
+        {
+            return products;
+        }
+
+        public void SetProducts(SortedList<string, double> products)
+        {
+            this.products = products;
+        }
+
         public bool ValidateCustomer(SortedList<string , Customer> customers , string customerId)
         {
             if (customers == null) throw new ArgumentNullException("Not a valid Customer list.");

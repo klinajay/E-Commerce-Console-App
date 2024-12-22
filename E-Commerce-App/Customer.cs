@@ -158,5 +158,20 @@ namespace E_Commerce_App
                 Console.WriteLine($"{item.Key} {item.Value}");
             }
         }
+
+        public void DeleteProductFromCart(string productName)
+        {
+            if (this.cart.ContainsKey(productName))
+            {
+                cart.Remove(productName);
+                Console.WriteLine($"{productName} removed from cart");
+            }
+            else
+            {
+                Console.WriteLine($"{productName} is not present in cart.");
+            }
+        }
+
+        //implement removal on index.
     }
 }

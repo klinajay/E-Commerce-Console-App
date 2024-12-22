@@ -49,19 +49,24 @@
                 age: 32,
                 userName: "amitabh_s"
             );
+
             //checking AddCustomer working
             customerList.AddCustomer(customer1 );
             customerList.AddCustomer(customer2);
             customerList.AddCustomer(customer3);
 
             //checking AddToCart and ViewCart working
-            customer1.AddToCart(product1, 51, inventory1);
-            customer1.AddToCart(product2, 10, inventory1);
+            customer1.AddToCart(product1, 1, inventory1);
+            customer1.AddToCart(product2, 1, inventory1);
             customer1.ViewCart();
 
             //checking inventory workings.
             //inventory1.DisplayAllAvailableProducts();
             inventory1.SearchProductInInventory("rce");
+
+            //orders working checking
+            OnlineOrder order1 = new OnlineOrder(customer1 , false , "rehansharma123" );
+            
             
         }
     }
