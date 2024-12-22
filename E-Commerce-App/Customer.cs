@@ -8,22 +8,28 @@ namespace E_Commerce_App
 {
     internal class Customer : AbstractClassPerson
     {
-        private SortedList<string,Product> cart;
+        private SortedList<string,double> cart;
+        private string customerId;
         //private SortedList<string, Product> Orders;
 
-        public Customer(String name , string email , string phone , string password , string type , int age)
+        public Customer(String name , string email , string phone , string password , string type , int age , string userName)
         {
             personName = name;
-            cart = new SortedList<string,Product>();
+            cart = new SortedList<string,double>();
             SetEmail(email, true);
             SetPhoneNumber(phone , true);
             SetAge(age , true);
             SetPassword(password , true);
             SetTypeCustomerOrVendor(type , true);
+            SetUsername(userName , true);
+        }
+        public SortedList<string, double> GetCart()
+        {
+            return cart;
         }
         public override string GetEmail(bool isAuthorized)
         {
-            return isAuthorized ? email : "Authorization required!";
+            return isAuthorized ? email : "Authorization requi red!";
         }
 
         public override string GetPhoneNumber(bool isAuthorized)
@@ -98,6 +104,19 @@ namespace E_Commerce_App
             {
                 password = newPassword;
                 Console.WriteLine("password updated successfully.");
+            }
+            else
+            {
+                Console.WriteLine("Authorization required to update password.");
+            }
+        }
+        public void SetUsername(string userName , bool isAuthorized)
+        {
+
+            if (isAuthorized)
+            {
+                customerId = userName;
+                Console.WriteLine("Username updated successfully.");
             }
             else
             {
