@@ -18,10 +18,12 @@ namespace E_Commerce_App
         }
         public void DisplayAllAvailableProducts()
         {
-            foreach (KeyValuePair<string , Product> pair in this.inventoryList)
+            Console.WriteLine("Product Name      Quantity   Unit   Price");
+            Console.WriteLine("-----------------------------------------");
 
+            foreach (KeyValuePair<string, Product> pair in this.inventoryList)
             {
-                Console.WriteLine($"{pair.Value.productName}        {pair.Value.availableQuantity}        {pair.Value.quantityType}        {pair.Value.ProductPrice}");
+                Console.WriteLine($"{pair.Value.productName,-16} {pair.Value.availableQuantity,-10} {pair.Value.quantityType,-6} {pair.Value.ProductPrice:F2}");
             }
         }
 
