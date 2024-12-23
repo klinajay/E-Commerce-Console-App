@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace E_Commerce_App
 {
-    internal class Customer : AbstractClassPerson
+    internal class Customer : Person
     {
         private SortedList<string, double> cart;
         private string customerId;

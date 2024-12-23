@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace E_Commerce_App
 {
-    internal class OnlineOrder : InterfaceOrder
+    internal class OnlineOrder : IOrder
     {
         protected Customer customer;
         protected bool paymentStatus;

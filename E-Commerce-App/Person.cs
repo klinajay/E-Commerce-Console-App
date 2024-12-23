@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace E_Commerce_App
 {
-    internal abstract class AbstractClassPerson
+    internal abstract class Person
     {
         public string personName;
         protected string email;

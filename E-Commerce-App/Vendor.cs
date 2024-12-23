@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace E_Commerce_App
 {
-    internal class Vendor : AbstractClassPerson
+    internal class Vendor : Person
     {
         SortedList< Product , bool> suppliedProducts;
 
