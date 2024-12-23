@@ -33,5 +33,7 @@ namespace E_Commerce_App
                 }
             }
         }
+
+        //Other functionality can be added like DeleteAccount and other related to customerList which only admin can perform
     }
 }

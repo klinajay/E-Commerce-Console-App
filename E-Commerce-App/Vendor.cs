@@ -8,9 +8,11 @@ namespace E_Commerce_App
 {
     internal class Vendor : Person
     {
-        SortedList< Product , bool> suppliedProducts;
+        private SortedList< Product , bool> suppliedProducts;
+        private string vendorId;
+        
 
-        public Vendor(String name, string email, string phone, string password, string type, int age)
+        public Vendor(String name, string email, string phone, string password, string type, int age, int userName)
         {
             personName = name;
             suppliedProducts = new SortedList<Product , bool>();
@@ -19,12 +21,16 @@ namespace E_Commerce_App
             SetAge(age, true);
             SetPassword(password, true);
             SetTypeCustomerOrVendor(type, true);
+            vendorId = name;
         }
         public override string GetEmail(bool isAuthorized)
         {
             return isAuthorized ? email : "Authorization required!";
         }
-
+        public string GetVendorId(bool isAuthorized)
+        {
+            return vendorId;
+        }
         public override string GetPhoneNumber(bool isAuthorized)
         {
             return isAuthorized ? phoneNumber : "Authorization required!";
@@ -103,5 +109,10 @@ namespace E_Commerce_App
                 Console.WriteLine("Authorization required to update password.");
             }
         }
+
+        //public void SupplyProductToInventory(Product)
+        //{
+
+        //}
     }
 }

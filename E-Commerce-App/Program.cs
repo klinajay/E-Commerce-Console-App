@@ -6,6 +6,7 @@ namespace E_Commerce_App
     {
         private static Inventory inventory = new Inventory();
         private static CustomerList customerList = new CustomerList();
+        private static VendorList vendorList = new VendorList();
 
         private static void Main(string[] args)
         {
@@ -133,10 +134,10 @@ namespace E_Commerce_App
                         inventory.DisplayAllAvailableProducts();
                         break;
                     case 2:
-                        AddProductToCart(customer);
+                        AddProductToCartHelper(customer);
                         break;
                     case 3:
-                        RemoveProductFromCart(customer);
+                        RemoveProductFromCartHelper(customer);
                         break;
                     case 4:
                         customer.ViewCart();
@@ -154,7 +155,7 @@ namespace E_Commerce_App
             } while (action != 100);
         }
 
-        private static void AddProductToCart(Customer customer)
+        private static void AddProductToCartHelper(Customer customer)
         {
             Console.Write("Enter the Name of the product: ");
             string productName = Console.ReadLine();
@@ -172,7 +173,7 @@ namespace E_Commerce_App
             }
         }
 
-        private static void RemoveProductFromCart(Customer customer)
+        private static void RemoveProductFromCartHelper(Customer customer)
         {
             Console.Write("Enter the Name of the product to remove: ");
             string productName = Console.ReadLine();
