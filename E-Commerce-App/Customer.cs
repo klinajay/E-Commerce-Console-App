@@ -23,6 +23,16 @@ namespace E_Commerce_App
             SetTypeCustomerOrVendor(type, true);
             SetUsername(userName, true);
         }
+
+        public void ShowProfile()
+        {
+            
+            Console.WriteLine($"name: {this.personName}");
+            Console.WriteLine($"email: {this.email}");
+            Console.WriteLine($"phone number: {this.phoneNumber}");
+            Console.WriteLine($"username: {this.customerId}");
+            Console.WriteLine($"password: {this.password}");
+        }
         public SortedList<string, double> GetCart()
         {
             return cart;
@@ -136,6 +146,7 @@ namespace E_Commerce_App
                 if (inventory.inventoryList[product.productName].availableQuantity >= quantity)
                 {
                     cart.Add(product.productName, quantity);
+                    Console.WriteLine("Product added successfuly");
                 }
                 else
                 {
