@@ -8,7 +8,7 @@ namespace E_Commerce_App
 {
     internal class CustomerList
     {
-        SortedList<string, Customer> customerList;
+        public SortedList<string, Customer> customerList;
         public CustomerList()
         {
             customerList = new SortedList<string, Customer>();

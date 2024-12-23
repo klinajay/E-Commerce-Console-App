@@ -1,3 +1,4 @@
 # E-Commerce-App
-1.update the method to remove product and think on possible cases where it can fail.
-2. try to implement fuzzy searching for search project.
+
+1. AddToCart = when product get added the quantity in inventory should get reduced.
+2. RemoveProductFromCart = If Product is removed from the cart quantity in inventory should increase.

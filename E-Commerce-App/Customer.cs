@@ -164,6 +164,11 @@ namespace E_Commerce_App
         }
         public void ViewCart()
         {
+            if(cart.Count == 0)
+            {
+                Console.WriteLine("Nothing is there in your cart.");
+                return;
+            }
             foreach (var item in cart)
             {
                 Console.WriteLine($"{item.Key} {item.Value}");

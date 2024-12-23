@@ -1,4 +1,5 @@
-﻿using System.Transactions;
+﻿using System;
+using System.Transactions;
 
 namespace E_Commerce_App
 {
@@ -60,7 +61,7 @@ namespace E_Commerce_App
             //checking AddToCart and ViewCart working
             customer1.AddToCart(product1, 1, inventory1);
             customer1.AddToCart(product2, 1, inventory1);
-            customer1.ViewCart();
+            //customer1.ViewCart();
 
             //checking inventory workings.
             //inventory1.DisplayAllAvailableProducts();
@@ -149,7 +150,105 @@ namespace E_Commerce_App
                                     Console.Write("Enter the quantity of the product: ");
                                     double.TryParse(Console.ReadLine(), out double quantity);
                                     Product product = inventory1.SearchProductInInventory(productName);
-                                    customer1.AddToCart(product, quantity, inventory1);
+                                    customer.AddToCart(product, quantity, inventory1);
+                                }
+                                break;
+                            case 3:
+                                {
+                                    if(customer.GetCart().Count == 0)
+                                    {
+                                        Console.WriteLine("Nothing is there in your cart.");
+                                    }
+                                    else
+                                    {
+                                        Console.Write("Enter the product to remove.: ");
+                                        string productName = Console.ReadLine();
+                                        customer.DeleteProductFromCart(productName);
+                                    }
+                                    
+                                }
+                                break;
+                            case 4:
+                                {
+                                    customer.ViewCart();
+                                }
+                                break;
+                            case 5:
+                                {
+                                    customer.ShowProfile();
+                                }
+                                break;
+                        }
+                        Console.WriteLine();
+                    }
+                    while (action != 100);
+
+                   
+                }
+                else if(internalType == 1)
+                {
+                    Console.Write("Enter your username.");
+                    string username = Console.ReadLine();
+                    Console.Write("Enter your password.");
+                    string password = Console.ReadLine();
+                    Customer customer = null;
+                    int action = 101;
+                    if (!customerList.customerList.ContainsKey(username))
+                    {
+                        Console.WriteLine("User not found, please create account first.");
+                        return;
+                        
+                    }
+                    else
+                    {
+                        foreach(var item in customerList.customerList)
+                        {
+                            if(item.Key == username)
+                            {
+                                customer = item.Value;
+                                break;
+                            }
+                        }
+                    }
+                    customer.Login(password, username , customer);
+                    
+                    do
+                    {
+                        
+                        Console.WriteLine();
+
+                        if (action < 0 && action >= 6 && action != 100)
+                        {
+                            Console.WriteLine("Please enter the valid option for actions");
+                        }
+                        Console.WriteLine("Press the corresponding action number t0 perform particular action.");
+                        Console.WriteLine();
+                        Console.WriteLine("1 : View inventory");
+                        Console.WriteLine("2 : Add product to cart");
+                        Console.WriteLine("3 : Remove product from cart");
+                        Console.WriteLine("4 : View cart");
+                        Console.WriteLine("5: View profile information");
+                        Console.WriteLine("100 : exit");
+                        int.TryParse(Console.ReadLine(), out action);
+
+                        switch (action)
+                        {
+                            case 1:
+                                {
+                                    inventory1.DisplayAllAvailableProducts();
+                                }
+                                break;
+                            case 2:
+                                {
+                                    Console.Write("Enter the Name of the product: ");
+                                    string productName = Console.ReadLine();
+                                    Console.Write("Enter the quantity of the product: ");
+                                    double.TryParse(Console.ReadLine(), out double quantity);
+                                    Product product = inventory1.SearchProductInInventory(productName);
+                                    if(customer != null)
+                                    {
+                                        customer.AddToCart(product, quantity, inventory1);
+                                    }
                                 }
                                 break;
                             case 3:
@@ -173,8 +272,6 @@ namespace E_Commerce_App
                         Console.WriteLine();
                     }
                     while (action != 100);
-
-                   
                 }
 
             }

@@ -24,6 +24,20 @@ namespace E_Commerce_App
         public abstract void SetAge(int newAge ,bool isAuthorizd);
         public abstract void SetTypeCustomerOrVendor(string newType, bool isAuthorizd);
         public abstract void SetPassword(string newPassword ,bool isAuthorizd);
+        public async void Login(string password , string username , Customer customer) 
+        {
+
+            if (customer.password == password)
+            {
+                Console.WriteLine("Logging in.....");
+                System.Threading.Thread.Sleep(5000);
+                Console.WriteLine("Login successful.");
+            }
+            else
+            {
+                Console.WriteLine("Incorrect password or username.");
+            }
+        }
 
     }
 }
