@@ -145,8 +145,27 @@ namespace E_Commerce_App
             {
                 if (inventory.inventoryList[product.productName].availableQuantity >= quantity)
                 {
-                    cart.Add(product.productName, quantity);
-                    Console.WriteLine("Product added successfuly");
+                    bool flag = false;
+                    if (cart.ContainsKey(product.productName))
+                    {
+                        cart[product.productName] += quantity;
+                        flag = inventory.ReduceQuantityOfProductFromInventory(product.productName, quantity);
+                    }
+                    else
+                    {
+                        cart.Add(product.productName, quantity);
+                        flag = inventory.ReduceQuantityOfProductFromInventory(product.productName, quantity);
+                    }
+                    
+                    if (flag)
+                    {
+                        Console.WriteLine("Product added to cart successfuly");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Something went wrong. pleage try again.");
+                    }
+                    
                 }
                 else
                 {

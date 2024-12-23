@@ -135,7 +135,7 @@ namespace E_Commerce_App
                         Console.WriteLine("5: View profile information");
                         Console.WriteLine("100 : exit");
                         int.TryParse(Console.ReadLine(), out action);
-
+                        Console.WriteLine();
                         switch (action)
                         {
                             case 1:

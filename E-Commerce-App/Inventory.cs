@@ -146,26 +146,24 @@ namespace E_Commerce_App
             }
 
         }
-        //public bool ReduceQuantityOfProductFromInventory(string productName)
-        //{
-        //    if (this.inventoryList.ContainsKey(productName))
-        //    {
-        //        Product product = SearchProductInInventory(productName);
-        //        if (product != null)
-        //        {
-        //            if (this.inventoryList.Remove(productName))
-        //            {
-        //                Console.WriteLine("Product removed successfully");
-        //                return true;
-        //            }
-        //            else
-        //            {
-        //                Console.WriteLine(//what can be errors????to remove product
-        //            }
-                    
-        //        }
-        //    }
-        //}
+        public bool ReduceQuantityOfProductFromInventory(string productName , double quantity)
+        {
+            if (this.inventoryList.ContainsKey(productName))
+            {
+                Product product = SearchProductInInventory(productName);
+                if (product != null)
+                {
+                    inventoryList[productName].availableQuantity -= quantity;
+                    return true;
+                }
+                else return false;
+
+            }
+            else
+            {
+                return false;
+            }
+        }
         //public void DisplayProductInformation(string productName)
         //{
 
