@@ -163,7 +163,8 @@ namespace E_Commerce_App
                                     {
                                         Console.Write("Enter the product to remove.: ");
                                         string productName = Console.ReadLine();
-                                        customer.DeleteProductFromCart(productName);
+                                      
+                                        customer.DeleteProductFromCart(productName  , inventory1);
                                     }
                                     
                                 }
@@ -255,7 +256,7 @@ namespace E_Commerce_App
                                 {
                                     Console.Write("Enter the product to remove.: ");
                                     string productName = Console.ReadLine();
-                                    customer.DeleteProductFromCart(productName);
+                                    customer.DeleteProductFromCart(productName,inventory1);
                                 }
                                 break;
                             case 4:

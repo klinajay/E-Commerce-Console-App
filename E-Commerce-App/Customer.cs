@@ -26,7 +26,7 @@ namespace E_Commerce_App
 
         public void ShowProfile()
         {
-            
+
             Console.WriteLine($"name: {this.personName}");
             Console.WriteLine($"email: {this.email}");
             Console.WriteLine($"phone number: {this.phoneNumber}");
@@ -156,7 +156,7 @@ namespace E_Commerce_App
                         cart.Add(product.productName, quantity);
                         flag = inventory.ReduceQuantityOfProductFromInventory(product.productName, quantity);
                     }
-                    
+
                     if (flag)
                     {
                         Console.WriteLine("Product added to cart successfuly");
@@ -165,7 +165,7 @@ namespace E_Commerce_App
                     {
                         Console.WriteLine("Something went wrong. pleage try again.");
                     }
-                    
+
                 }
                 else
                 {
@@ -179,11 +179,11 @@ namespace E_Commerce_App
             }
 
 
-            
+
         }
         public void ViewCart()
         {
-            if(cart.Count == 0)
+            if (cart.Count == 0)
             {
                 Console.WriteLine("Nothing is there in your cart.");
                 return;
@@ -194,12 +194,22 @@ namespace E_Commerce_App
             }
         }
 
-        public void DeleteProductFromCart(string productName)
+        public void DeleteProductFromCart(string productName, Inventory inventory)
         {
             if (this.cart.ContainsKey(productName))
             {
+                bool flag = false;
+                double quantity = cart[productName];
                 cart.Remove(productName);
-                Console.WriteLine($"{productName} removed from cart");
+                flag = inventory.IncreaseQuantityOfProductFromInventory(productName, quantity);
+                if (flag)
+                {
+                    Console.WriteLine($"{productName} removed from cart successfuly");
+                }
+                else
+                {
+                    Console.WriteLine("Something went wrong. pleage try again.");
+                }
             }
             else
             {

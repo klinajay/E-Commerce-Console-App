@@ -164,6 +164,24 @@ namespace E_Commerce_App
                 return false;
             }
         }
+        public bool IncreaseQuantityOfProductFromInventory(string productName, double quantity)
+        {
+            if (this.inventoryList.ContainsKey(productName))
+            {
+                Product product = SearchProductInInventory(productName);
+                if (product != null)
+                {
+                    inventoryList[productName].availableQuantity += quantity;
+                    return true;
+                }
+                else return false;
+
+            }
+            else
+            {
+                return false;
+            }
+        }
         //public void DisplayProductInformation(string productName)
         //{
 
