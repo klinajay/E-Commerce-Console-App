@@ -22,6 +22,8 @@ namespace E_Commerce_App
             SetPassword(password, true);
             SetTypeCustomerOrVendor(type, true);
             SetUsername(userName, true);
+            ReduceQuantityService reduceQuantityService = new ReduceQuantityService();
+            this.ProductAdded += reduceQuantityService.OnProductAddedToCart;
         }
 
         public void ShowProfile()
@@ -32,6 +34,15 @@ namespace E_Commerce_App
             Console.WriteLine($"phone number: {this.phoneNumber}");
             Console.WriteLine($"username: {this.customerId}");
             Console.WriteLine($"password: {this.password}");
+        }
+        public delegate void AddedProductEventHandler(object source, ProductEventArgs args);
+        public event AddedProductEventHandler ProductAdded;
+        protected virtual void OnProductAddedToCart(object source , ProductEventArgs args)
+        {
+            if(ProductAdded != null )
+            {
+                ProductAdded(this , args);
+            }
         }
         public SortedList<string, double> GetCart()
         {
@@ -140,6 +151,7 @@ namespace E_Commerce_App
         }
         public void AddToCart(Product product, double quantity, Inventory inventory)
         {
+            
 
             if (inventory.inventoryList.ContainsKey(product.productName))
             {
@@ -149,12 +161,14 @@ namespace E_Commerce_App
                     if (cart.ContainsKey(product.productName))
                     {
                         cart[product.productName] += quantity;
-                        flag = inventory.ReduceQuantityOfProductFromInventory(product.productName, quantity);
+                        OnProductAddedToCart(this , new ProductEventArgs(product.productName, quantity, ref inventory));
+                        flag = true;
                     }
                     else
                     {
                         cart.Add(product.productName, quantity);
-                        flag = inventory.ReduceQuantityOfProductFromInventory(product.productName, quantity);
+                        OnProductAddedToCart(this, new ProductEventArgs(product.productName, quantity, ref inventory));
+                        flag = true;
                     }
 
                     if (flag)

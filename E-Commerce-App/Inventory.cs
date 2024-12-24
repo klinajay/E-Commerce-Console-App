@@ -15,7 +15,9 @@ namespace E_Commerce_App
         public Inventory()
         {
             inventoryList = new SortedList< string , Product>();
+            
         }
+        
         public void DisplayAllAvailableProducts()
         {
             Console.WriteLine("Product Name      Quantity   Unit   Price");
