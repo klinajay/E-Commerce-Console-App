@@ -119,7 +119,9 @@ namespace E_Commerce_App
                 Console.WriteLine("2: Add Product to Cart");
                 Console.WriteLine("3: Remove Product from Cart");
                 Console.WriteLine("4: View Cart");
-                Console.WriteLine("5: View Profile");
+                Console.WriteLine("5: Place online order");
+                Console.WriteLine("6: Place offline order");
+                Console.WriteLine("7: View Profile");
                 Console.WriteLine("100: Exit");
 
                 if (!int.TryParse(Console.ReadLine(), out action))
@@ -143,6 +145,12 @@ namespace E_Commerce_App
                         customer.ViewCart();
                         break;
                     case 5:
+                        OnlineOrderHelper(customer);
+                        break;
+                    case 6:
+                        PhysicalOrderHelper(customer);
+                        break;
+                    case 7:
                         customer.ShowProfile();
                         break;
                     case 100:
@@ -172,7 +180,17 @@ namespace E_Commerce_App
                 Console.WriteLine("Product not found in inventory.");
             }
         }
+        private static void OnlineOrderHelper(Customer customer)
+        {
+            Console.Write("Enter your paymentId: ");
+            string paymentId = Console.ReadLine();
+            OnlineOrder order = new OnlineOrder(customer, false, paymentId);
+            order.ProceedOrder(customerList.customerList,customer.GetCustomerId(),inventory.inventoryList);
+        }
+        private static void PhysicalOrderHelper(Customer customer)
+        {
 
+        }
         private static void RemoveProductFromCartHelper(Customer customer)
         {
             Console.Write("Enter the Name of the product to remove: ");
