@@ -72,8 +72,10 @@ namespace E_Commerce_App
             this.products = products;
         }
 
-        public bool ValidateCustomer(SortedList<string , Customer> customers , string customerId)
+        public bool ValidateCustomer(string customerId)
+            
         {
+            SortedList<string, Customer> customers = Program.customerList.customerList;
             if (customers == null) throw new ArgumentNullException("Not a valid Customer list.");
 
             try
@@ -87,12 +89,13 @@ namespace E_Commerce_App
                 throw;
             }
         }
-        public void ProceedOrder(SortedList<string, Customer> customers, string customerId)
+        public void ProceedOrder(string customerId)
         {
+            SortedList<string, Customer> customers = Program.customerList.customerList;
             Console.WriteLine("Proceeding your order.");
-            if (ValidateCustomer(customers, customerId))
+            if (ValidateCustomer( customerId))
             {
-                totalBill = CalculateTotal(customers, customerId);
+                totalBill = CalculateTotal(customerId);
                 Console.WriteLine("Order processed successfully");
             }
             else 
@@ -102,9 +105,9 @@ namespace E_Commerce_App
 
         }
 
-        public double CalculateTotal(SortedList<string, Customer> customers, string customerId)
+        public double CalculateTotal( string customerId)
         {
-
+            SortedList<string, Customer> customers = Program.customerList.customerList;
             Customer c1 = customers[customerId];
             SortedList<string, double> Cart = c1.GetCart();
             double result = 0;

@@ -8,8 +8,8 @@ namespace E_Commerce_App
 {
     internal interface IOrder
     {
-        public void ProceedOrder(SortedList<string, Customer> customers, string customerId);
-        public bool ValidateCustomer(SortedList<string, Customer> customers, string customerId);
-        public double CalculateTotal(SortedList<string, Customer> customers , string customerId);
+        public void ProceedOrder( string Id);
+        public bool ValidateCustomer( string Id);
+        public double CalculateTotal(string Id);
     }
 }

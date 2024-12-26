@@ -5,7 +5,7 @@ namespace E_Commerce_App
     internal class Program
     {
         private static Inventory inventory = new Inventory();
-        private static CustomerList customerList = new CustomerList();
+        public static CustomerList customerList = new CustomerList();
         private static VendorList vendorList = new VendorList();
 
         private static void Main(string[] args)
