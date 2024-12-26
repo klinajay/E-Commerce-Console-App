@@ -4,9 +4,9 @@ namespace E_Commerce_App
 {
     internal class Program
     {
-        private static Inventory inventory = new Inventory();
+        public static Inventory inventory = new Inventory();
         public static CustomerList customerList = new CustomerList();
-        private static VendorList vendorList = new VendorList();
+        public static VendorList vendorList = new VendorList();
 
         private static void Main(string[] args)
         {
@@ -30,6 +30,8 @@ namespace E_Commerce_App
             {
                 Console.WriteLine("Vendor functionality is not implemented yet.");
             }
+
+
         }
 
         private static void InitializeData()
@@ -41,9 +43,46 @@ namespace E_Commerce_App
             inventory.AddProductToInventory(new Product("Wheat", 100, 50, "Kgs"));
 
             
-            customerList.AddCustomer(new Customer("Rohan Sharma", "rohan.sharma@example.com", "9876543210", "password123", "Customer", 28, "rohan_s"));
+            customerList.AddCustomer(new Customer("Rohan Sharma", "rohan.sharma@example.com", "9876543210", "1234", "Customer", 28, "rohan_s"));
             customerList.AddCustomer(new Customer("Anjali Verma", "anjali.verma@example.com", "9123456789", "securepass", "Customer", 25, "anjali_v"));
             customerList.AddCustomer(new Customer("Amitabh Singh", "amitabh.singh@example.com", "9345678901", "pass@123", "Customer", 32, "amitabh_s"));
+            vendorList.AddVendorsToList(new Vendor(
+    "Rahul Mehta",
+    "rahul.mehta@example.com",
+    "9123456789",
+    "rahul123",
+    "Vendor",
+    35,
+    "rahul_m"
+));
+
+            vendorList.AddVendorsToList(new Vendor(
+                "Priya Kapoor",
+                "priya.kapoor@example.com",
+                "9876543211",
+                "secure@priya",
+                "Vendor",
+                30,
+                "priya_k"
+            ));
+
+            vendorList.AddVendorsToList(new Vendor(
+                "Anil Kumar",
+                "anil.kumar@example.com",
+                "9321567890",
+                "anil@password",
+                "Vendor",
+                40,
+                "anil_k"
+            ));
+
+            Vendor vendor1 = vendorList.vendorList["rahul_m"];
+            VendorOrders order1 = new VendorOrders(vendor1, false);
+            vendor1.GetCart().Add("Aple", new Product("Apple", 50.65, 80, "Kgs"));
+            order1.ProceedOrder(vendor1.GetVendorId(true));
+            Console.WriteLine("CAlling inventoruy");
+            inventory.DisplayAllAvailableProducts();
+            
         }
 
         private static void HandleCustomerActions()
@@ -104,8 +143,10 @@ namespace E_Commerce_App
             else
             {
                 existingCustomer.Login(password, username, existingCustomer);
+                CustomerMenu(existingCustomer);
+
             }
-            CustomerMenu(existingCustomer);
+
 
         }
 
@@ -185,11 +226,12 @@ namespace E_Commerce_App
             Console.Write("Enter your paymentId: ");
             string paymentId = Console.ReadLine();
             OnlineOrder order = new OnlineOrder(customer, false, paymentId);
-            order.ProceedOrder(customerList.customerList,customer.GetCustomerId(),inventory.inventoryList);
+            order.ProceedOrder(customer.GetCustomerId());
         }
         private static void PhysicalOrderHelper(Customer customer)
         {
-
+            PhysicalOrder order = new PhysicalOrder(customer, false);
+            order.ProceedOrder(customer.GetCustomerId());
         }
         private static void RemoveProductFromCartHelper(Customer customer)
         {

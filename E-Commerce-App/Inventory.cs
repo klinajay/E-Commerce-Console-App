@@ -31,10 +31,13 @@ namespace E_Commerce_App
 
         public void IncreaseQuantityOfExhistingProduct(Product product)
         {
-            this.inventoryList.Add(product.productName, product);
+            inventoryList[product.productName].availableQuantity += product.availableQuantity;
             
         }
-
+        public void IncreaseQuantityOfExhistingProductWithKey(string product, double value)
+        {
+            inventoryList[product].availableQuantity += value;
+        }
         //returns 1 if product already exhists , returns 2 if new product added. 
         public int AddProductToInventory(Product product)
         {

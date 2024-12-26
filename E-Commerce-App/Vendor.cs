@@ -8,20 +8,28 @@ namespace E_Commerce_App
 {
     internal class Vendor : Person
     {
-        private SortedList< Product , bool> suppliedProducts;
+        private SortedList<string, Product> cart;
         private string vendorId;
         
 
-        public Vendor(String name, string email, string phone, string password, string type, int age, int userName)
+        public Vendor(String name, string email, string phone, string password, string type, int age, string userName)
         {
             personName = name;
-            suppliedProducts = new SortedList<Product , bool>();
+            cart = new SortedList<string, Product>();
             SetEmail(email, true);
             SetPhoneNumber(phone, true);
             SetAge(age, true);
             SetPassword(password, true);
             SetTypeCustomerOrVendor(type, true);
-            vendorId = name;
+            vendorId = userName;
+        }
+        public SortedList<string, Product> GetCart()
+        {
+            return cart;
+        }
+        public void SetCart(SortedList<string, Product> cart)
+        {
+            this.cart = cart;
         }
         public override string GetEmail(bool isAuthorized)
         {
@@ -51,7 +59,7 @@ namespace E_Commerce_App
             if (isAuthorized)
             {
                 email = newEmail;
-                Console.WriteLine("Email updated successfully.");
+              
             }
             else
             {
@@ -64,20 +72,20 @@ namespace E_Commerce_App
             if (isAuthorized)
             {
                 phoneNumber = newPhoneNumber;
-                Console.WriteLine("Phone number updated successfully.");
+               
             }
             else
             {
                 Console.WriteLine("Authorization required to update phone number.");
             }
         }
+        
 
         public override void SetAge(int newAge, bool isAuthorized)
         {
             if (isAuthorized)
             {
                 age = newAge;
-                Console.WriteLine("Age updated successfully.");
             }
             else
             {
@@ -90,7 +98,6 @@ namespace E_Commerce_App
             if (isAuthorized)
             {
                 typeCustormerOrVendor = newType;
-                Console.WriteLine("Type updated successfully.");
             }
             else
             {
@@ -102,14 +109,19 @@ namespace E_Commerce_App
             if (isAuthorized)
             {
                 password = newPassword;
-                Console.WriteLine("password updated successfully.");
             }
             else
             {
                 Console.WriteLine("Authorization required to update password.");
             }
         }
+        public void AddToCart(Product product, Inventory inventory)
+        {
 
+           cart.Add(product.productName, product);
+            Console.WriteLine("Product added to cart successfully.");
+
+        }
         //public void SupplyProductToInventory(Product)
         //{
 
