@@ -8,11 +8,11 @@ namespace E_Commerce_App
 {
     internal class OnlineOrder : IOrder
     {
-        protected Customer customer;
-        protected bool paymentStatus;
-        protected string paymentId;
-        protected double totalBill;
-        protected SortedList <string , double> products;
+        private Customer customer;
+        private bool paymentStatus;
+        private string paymentId;
+        private double totalBill;
+        private SortedList <string , double> products;
 
         public OnlineOrder(Customer customer, bool paymentStatus, string paymentId)
         {
@@ -89,14 +89,28 @@ namespace E_Commerce_App
                 throw;
             }
         }
+<<<<<<< HEAD
         public void ProceedOrder(string customerId)
+=======
+        public void ProceedOrder(SortedList<string, Customer> customers, string customerId , SortedList<string , Product> inventory)
+>>>>>>> 4f687f2896344c5b40baf7845b7fb5ed6986bf66
         {
             SortedList<string, Customer> customers = Program.customerList.customerList;
             Console.WriteLine("Proceeding your order.");
+<<<<<<< HEAD
             if (ValidateCustomer( customerId))
             {
                 totalBill = CalculateTotal(customerId);
                 Console.WriteLine("Order processed successfully");
+=======
+            Thread.Sleep(1500);
+            if (ValidateCustomer(customers, customerId))
+            {
+                totalBill = CalculateTotal(customers, customerId , inventory);
+                Console.WriteLine("validating your payment.");
+                Thread.Sleep(2000);
+                Console.WriteLine($"Payment of {totalBill} processed successfuly.");
+>>>>>>> 4f687f2896344c5b40baf7845b7fb5ed6986bf66
             }
             else 
             {
@@ -105,7 +119,11 @@ namespace E_Commerce_App
 
         }
 
+<<<<<<< HEAD
         public double CalculateTotal( string customerId)
+=======
+        public double CalculateTotal(SortedList<string, Customer> customers, string customerId, SortedList<string, Product> inventory)
+>>>>>>> 4f687f2896344c5b40baf7845b7fb5ed6986bf66
         {
             SortedList<string, Customer> customers = Program.customerList.customerList;
             Customer c1 = customers[customerId];
@@ -113,7 +131,7 @@ namespace E_Commerce_App
             double result = 0;
             foreach (KeyValuePair<string , double> item in Cart)
             {
-                result += item.Value;
+                result += (item.Value * inventory[item.Key].ProductPrice);
             }
             return result;
         }
