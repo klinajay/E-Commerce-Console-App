@@ -8,7 +8,7 @@ namespace E_Commerce_App
         public static CustomerList customerList = new CustomerList();
         public static VendorList vendorList = new VendorList();
         public static SortedList<Vendor, VendorOrders> RequestList = new SortedList<Vendor, VendorOrders>();
-
+        private static Admin admin = new Admin("Riya Chauhan","riyachauhan@gmail.com","8787654532","123456","Admin",25,"admin");
         private static void Main(string[] args)
         {
             InitializeData();

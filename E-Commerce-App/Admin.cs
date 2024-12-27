@@ -13,7 +13,7 @@ namespace E_Commerce_App
         private string adminId;
 
 
-        public Admin(String name, string email, string phone, string password, string type, int age, string userName)
+        public Admin(string name, string email, string phone, string password, string type, int age, string userName)
         {
             personName = name;
         
