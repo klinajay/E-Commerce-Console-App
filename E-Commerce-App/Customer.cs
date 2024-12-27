@@ -20,7 +20,7 @@ namespace E_Commerce_App
             SetPhoneNumber(phone, true);
             SetAge(age, true);
             SetPassword(password, true);
-            SetTypeCustomerOrVendor(type, true);
+            SetRoleType(type, true);
             SetUsername(userName, true);
             ReduceQuantityService reduceQuantityService = new ReduceQuantityService();
             this.ProductAdded += reduceQuantityService.OnProductAddedToCart;
@@ -63,9 +63,9 @@ namespace E_Commerce_App
             return isAuthorized ? age : -1; // Returning -1 to indicate lack of authorization
         }
 
-        public override string GetTypeCustomerOrVendor(bool isAuthorized)
+        public override string GetRoleType(bool isAuthorized)
         {
-            return isAuthorized ? typeCustormerOrVendor : "Authorization required!";
+            return isAuthorized ? roleType : "Authorization required!";
         }
 
         public string GetCustomerId()
@@ -112,11 +112,11 @@ namespace E_Commerce_App
             }
         }
 
-        public override void SetTypeCustomerOrVendor(string newType, bool isAuthorized)
+        public override void SetRoleType(string newType, bool isAuthorized)
         {
             if (isAuthorized)
             {
-                typeCustormerOrVendor = newType;
+                roleType = newType;
 
             }
             else

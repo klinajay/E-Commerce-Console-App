@@ -1,21 +1,28 @@
-﻿namespace E_Commerce_App
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net.WebSockets;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace E_Commerce_App
 {
-    internal class Vendor : Person
+    internal class Admin : Person
     {
         
-        private string vendorId;
-        
+        private string adminId;
 
-        public Vendor(String name, string email, string phone, string password, string type, int age, string userName)
+
+        public Admin(String name, string email, string phone, string password, string type, int age, string userName)
         {
             personName = name;
-            
+        
             SetEmail(email, true);
             SetPhoneNumber(phone, true);
             SetAge(age, true);
             SetPassword(password, true);
             SetRoleType(type, true);
-            vendorId = userName;
+            adminId = userName;
         }
         
         
@@ -23,9 +30,9 @@
         {
             return isAuthorized ? email : "Authorization required!";
         }
-        public string GetVendorId(bool isAuthorized)
+        public string GetAdminId(bool isAuthorized)
         {
-            return vendorId;
+            return adminId;
         }
         public override string GetPhoneNumber(bool isAuthorized)
         {
@@ -47,7 +54,7 @@
             if (isAuthorized)
             {
                 email = newEmail;
-              
+
             }
             else
             {
@@ -60,20 +67,30 @@
             if (isAuthorized)
             {
                 phoneNumber = newPhoneNumber;
-               
+
             }
             else
             {
                 Console.WriteLine("Authorization required to update phone number.");
             }
         }
-        
-        public void AddProductToRequestList(Product product , SortedList<Vendor , VendorOrders> RequestList)
-        {
-            VendorOrders vendorClass = new VendorOrders(this,product, false);
-            RequestList.Add(this, vendorClass);
-        }
 
+        public void ApproveOrders(SortedList<Vendor, VendorOrders> requestList)
+        {
+            if (requestList == null)
+            {
+                Console.WriteLine("No orders to approve.");
+                return;
+            }
+            else
+            {
+                foreach (var entry in requestList)
+                {
+                    Console.WriteLine("Order approved for vendor: " + entry.Key.GetVendorId(true));
+                    entry.Value.ProceedOrder(entry.Key.GetVendorId(true));
+                }
+            }
+        }
         public override void SetAge(int newAge, bool isAuthorized)
         {
             if (isAuthorized)
@@ -109,9 +126,5 @@
             }
         }
         
-        //public void SupplyProductToInventory(Product)
-        //{
-
-        //}
     }
 }

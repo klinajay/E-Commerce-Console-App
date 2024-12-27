@@ -11,14 +11,14 @@ namespace E_Commerce_App
         private Vendor vendor;
         private bool paymentStatus;
         private double totalBill;
-        private SortedList<string, Product> products;
+        private Product product;
 
-        public VendorOrders(Vendor vendor, bool paymentStatus)
+        public VendorOrders(Vendor vendor, Product product, bool paymentStatus)
         {
             this.vendor = vendor;
             this.paymentStatus = paymentStatus;
             this.totalBill = 0;
-            products = vendor.GetCart();
+            this.product = product;
         }
         public Vendor GetVendor()
         {
@@ -50,14 +50,14 @@ namespace E_Commerce_App
             this.totalBill = totalBill;
         }
 
-        public SortedList<string, Product> GetProducts()
+        public  Product GetProduct()
         {
-            return products;
+            return product;
         }
 
-        public void SetProducts(SortedList<string, Product> products)
+        public void SetProduct(Product product)
         {
-            this.products = products;
+            this.product = product;
         }
 
         public bool ValidatePerson(string vendorId)
@@ -98,20 +98,19 @@ namespace E_Commerce_App
                 Console.WriteLine($"Payment of {totalBill} rs collected successfuly.");
                 var inventory = Program.inventory;
 
-                foreach (var product in products)
-                {
-                    if (inventory.inventoryList.ContainsKey(product.Key))
+               
+                    if (inventory.inventoryList.ContainsKey(product.productName))
                     {
 
-                        inventory.inventoryList[product.Value.productName].availableQuantity += product.Value.availableQuantity;
+                        inventory.inventoryList[product.productName].availableQuantity += product.availableQuantity;
                         inventory.DisplayAllAvailableProducts();
                     }
                     else
                     {
-                        inventory.AddProductToInventory(product.Value);
+                        inventory.AddProductToInventory(product);
 
                     }
-                }
+                
             }
             else
             {
@@ -127,12 +126,11 @@ namespace E_Commerce_App
             SortedList<string, Vendor> vendors = Program.vendorList.vendorList;
             SortedList<string, Product> inventory = Program.inventory.inventoryList;
             Vendor c1 = vendors[vendorId];
-            SortedList<string, Product> Cart = c1.GetCart();
+            Product product1= product;
             double result = 0;
-            foreach (var item in Cart)
-            {
-                result += (item.Value.availableQuantity * item.Value.ProductPrice);
-            }
+            
+            result += (product.availableQuantity * product.ProductPrice);
+            
             return result;
         }
 

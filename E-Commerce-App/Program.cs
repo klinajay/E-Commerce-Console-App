@@ -7,6 +7,7 @@ namespace E_Commerce_App
         public static Inventory inventory = new Inventory();
         public static CustomerList customerList = new CustomerList();
         public static VendorList vendorList = new VendorList();
+        public static SortedList<Vendor, VendorOrders> RequestList = new SortedList<Vendor, VendorOrders>();
 
         private static void Main(string[] args)
         {
@@ -28,7 +29,7 @@ namespace E_Commerce_App
             }
             else
             {
-                Console.WriteLine("Vendor functionality is not implemented yet.");
+                HandleVendorActions();
             }
 
 
@@ -47,14 +48,14 @@ namespace E_Commerce_App
             customerList.AddCustomer(new Customer("Anjali Verma", "anjali.verma@example.com", "9123456789", "securepass", "Customer", 25, "anjali_v"));
             customerList.AddCustomer(new Customer("Amitabh Singh", "amitabh.singh@example.com", "9345678901", "pass@123", "Customer", 32, "amitabh_s"));
             vendorList.AddVendorsToList(new Vendor(
-    "Rahul Mehta",
-    "rahul.mehta@example.com",
-    "9123456789",
-    "rahul123",
-    "Vendor",
-    35,
-    "rahul_m"
-));
+            "Rahul Mehta",
+            "rahul.mehta@example.com",
+            "9123456789",
+            "rahul123",
+            "Vendor",
+            35,
+            "rahul_m"
+            ));
 
             vendorList.AddVendorsToList(new Vendor(
                 "Priya Kapoor",
@@ -76,12 +77,12 @@ namespace E_Commerce_App
                 "anil_k"
             ));
 
-            Vendor vendor1 = vendorList.vendorList["rahul_m"];
-            VendorOrders order1 = new VendorOrders(vendor1, false);
-            vendor1.GetCart().Add("Aple", new Product("Apple", 50.65, 80, "Kgs"));
-            order1.ProceedOrder(vendor1.GetVendorId(true));
-            Console.WriteLine("CAlling inventoruy");
-            inventory.DisplayAllAvailableProducts();
+            //Vendor vendor1 = vendorList.vendorList["rahul_m"];
+            //VendorOrders order1 = new VendorOrders(vendor1, false);
+            //vendor1.GetCart().Add("Aple", new Product("Apple", 50.65, 80, "Kgs"));
+            //order1.ProceedOrder(vendor1.GetVendorId(true));
+            //Console.WriteLine("CAlling inventoruy");
+            //inventory.DisplayAllAvailableProducts();
             
         }
 
@@ -104,7 +105,27 @@ namespace E_Commerce_App
                 HandleNewCustomer();
             }
         }
+        private static void HandleVendorActions()
+        {
 
+            Console.Write("Enter your username: ");
+            string username = Console.ReadLine();
+            Console.Write("Enter your password: ");
+            string password = Console.ReadLine();
+
+            if (!vendorList.vendorList.TryGetValue(username, out Vendor existingVendor))
+            {
+                Console.WriteLine("User not found. Please create an account first.");
+                return;
+            }
+            else
+            {
+                existingVendor.Login(password, username, existingVendor);
+                VendorMenu(existingVendor);
+
+            }
+
+        }
         private static void HandleNewCustomer()
         {
             Console.WriteLine("Enter the following details to create a new account:");
@@ -203,7 +224,43 @@ namespace E_Commerce_App
                 }
             } while (action != 100);
         }
+        private static void VendorMenu(Vendor vendor)
+        {
+            int action;
+            do
+            {
+                Console.WriteLine("\nPress the corresponding action number to perform a task:");   
+                Console.WriteLine("1: Add Product to Request List of admin");
+                Console.WriteLine("2: Order status");   
+                Console.WriteLine("3: View Profile");
+                Console.WriteLine("100: Exit");
 
+                if (!int.TryParse(Console.ReadLine(), out action))
+                {
+                    Console.WriteLine("Invalid input. Please enter a valid number.");
+                    continue;
+                }
+
+                switch (action)
+                {
+                    case 1:
+                        AddToRequestListHelper(vendor);
+                        break;
+                    case 2:
+                        Console.WriteLine("Functionality yet to be implemented");
+                        break;
+                    case 3:
+                        vendor.ShowProfile();
+                        break;
+                    case 100:
+                        Console.WriteLine("Exiting customer menu.");
+                        break;
+                    default:
+                        Console.WriteLine("Invalid option. Please try again.");
+                        break;
+                }
+            } while (action != 100);
+        }
         private static void AddProductToCartHelper(Customer customer)
         {
             Console.Write("Enter the Name of the product: ");
@@ -218,6 +275,36 @@ namespace E_Commerce_App
             }
             else
             {
+                Console.WriteLine("Product not found in inventory.");
+            }
+        }
+        private static void AddToRequestListHelper(Vendor vendor)
+        {
+            Console.Write("Enter the Name of the product: ");
+            string productName = Console.ReadLine();
+            Console.Write("Enter the quantity of the product: ");
+            double.TryParse(Console.ReadLine(), out double quantity);
+            Console.WriteLine("Enter the price of the product: ");
+            double.TryParse(Console.ReadLine(), out double price);
+            Console.WriteLine("Enter the quantity Type 1: Kgs 2: nos");
+            int.TryParse(Console.ReadLine(), out int quantityType);
+            string type = quantityType == 1 ? "Kgs" : "nos";
+
+            //Product product = new Product(productName, price, quantity, type);
+            Product product = inventory.SearchProductInInventory(productName);
+            if (product != null)
+            {               
+                vendor.AddProductToRequestList(product, RequestList);
+                foreach (var item in RequestList)
+                {
+                    Console.WriteLine(item.Key);
+                    Console.WriteLine(item.Value);
+                }
+            }
+            else
+            {
+                Product product1 = new Product(productName, price, quantity, type);
+                vendor.AddProductToRequestList(product1, RequestList);
                 Console.WriteLine("Product not found in inventory.");
             }
         }
