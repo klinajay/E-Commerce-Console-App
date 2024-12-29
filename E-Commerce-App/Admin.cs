@@ -79,8 +79,12 @@ namespace E_Commerce_App
         {
             if (requestList == null)
             {
-                Console.WriteLine("No orders to approve.");
+                Console.WriteLine("Null request list is not accepted.");
                 return;
+            }
+            else if(requestList.Count == 0)
+            {
+                Console.WriteLine("No orders to approve.");
             }
             else
             {
@@ -125,6 +129,25 @@ namespace E_Commerce_App
                 Console.WriteLine("Authorization required to update password.");
             }
         }
-        
+        public void CleanupInventory(Inventory inventory)
+        {
+            Console.WriteLine("Cleaning up the inventory...");
+            Thread.Sleep(2000);
+            if (inventory.inventoryList.Count <= 0)
+            {
+                Console.WriteLine("Inventory is already empty.");
+            }
+            else
+            {
+                List<Product> list;
+                list = (from product in inventory.inventoryList where product.Value.availableQuantity <= 0 select product.Value ).ToList();
+                foreach (var item in list)
+                {
+                   
+                        inventory.inventoryList.Remove(item.productName);
+                }
+            }
+        }
+
     }
 }

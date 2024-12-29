@@ -189,10 +189,7 @@ namespace E_Commerce_App
                 return false;
             }
         }
-        //public void DisplayProductInformation(string productName)
-        //{
-
-        //}
+        
 
 
 

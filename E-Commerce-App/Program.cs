@@ -15,23 +15,38 @@ namespace E_Commerce_App
 
             Console.WriteLine("***** Welcome to E-Commerce-Console App. *****");
             Console.WriteLine("***** Who are you? *****");
-            Console.WriteLine("1: Customer  2: Vendor");
-
-            if (!int.TryParse(Console.ReadLine(), out int userType) || (userType != 1 && userType != 2))
+            Console.WriteLine("1: Customer  2: Vendor 3: Admin 100: Exit");
+            if (!int.TryParse(Console.ReadLine(), out int userType) || (userType < 1 && userType > 3))
             {
-                Console.WriteLine("Invalid input. Please enter 1 for Customer or 2 for Vendor.");
+               
+                Console.WriteLine("Invalid input. Please enter valid number.");
                 return;
             }
 
-            if (userType == 1)
+            while (userType != 100)
             {
-                HandleCustomerActions();
-            }
-            else
-            {
-                HandleVendorActions();
+                if (userType == 1)
+                {
+                    HandleCustomerActions();
+                }
+                else if (userType == 2)
+                {
+                    HandleVendorActions();
+                }
+                else if(userType == 3)
+                {
+                    HandleAdminActions();
+                }
+                Console.WriteLine("***** Who are you? *****");
+                Console.WriteLine("1: Customer  2: Vendor 3: Admin 100: Exit");
+                if (!int.TryParse(Console.ReadLine(), out  userType) || (userType < 1 && userType > 3))
+                {
+                    Console.WriteLine("Invalid input. Please enter 1 for Customer or 2 for Vendor.");
+                    return;
+                }
             }
 
+            
 
         }
 
@@ -42,8 +57,9 @@ namespace E_Commerce_App
             inventory.AddProductToInventory(new Product("Strawberry", 5.65, 10, "nos"));
             inventory.AddProductToInventory(new Product("Rice", 200, 40, "Kgs"));
             inventory.AddProductToInventory(new Product("Wheat", 100, 50, "Kgs"));
+            inventory.AddProductToInventory(new Product("Makhana", 0, 50, "Kgs"));
 
-            
+
             customerList.AddCustomer(new Customer("Rohan Sharma", "rohan.sharma@example.com", "9876543210", "1234", "Customer", 28, "rohan_s"));
             customerList.AddCustomer(new Customer("Anjali Verma", "anjali.verma@example.com", "9123456789", "securepass", "Customer", 25, "anjali_v"));
             customerList.AddCustomer(new Customer("Amitabh Singh", "amitabh.singh@example.com", "9345678901", "pass@123", "Customer", 32, "amitabh_s"));
@@ -120,8 +136,29 @@ namespace E_Commerce_App
             }
             else
             {
-                existingVendor.Login(password, username, existingVendor);
+                existingVendor.Login(password, username);
                 VendorMenu(existingVendor);
+
+            }
+
+        }
+        private static void HandleAdminActions()
+        {
+
+            Console.Write("Enter your username: ");
+            string username = Console.ReadLine();
+            Console.Write("Enter your password: ");
+            string password = Console.ReadLine();
+
+            if (!(admin.GetAdminId(true) == username))
+            {
+                Console.WriteLine("User not found. Please create an account first.");
+                return;
+            }
+            else
+            {
+                admin.Login(password, username);
+                AdminMenu();
 
             }
 
@@ -163,7 +200,7 @@ namespace E_Commerce_App
             }
             else
             {
-                existingCustomer.Login(password, username, existingCustomer);
+                existingCustomer.Login(password, username);
                 CustomerMenu(existingCustomer);
 
             }
@@ -215,6 +252,7 @@ namespace E_Commerce_App
                     case 7:
                         customer.ShowProfile();
                         break;
+                    
                     case 100:
                         Console.WriteLine("Exiting customer menu.");
                         break;
@@ -253,7 +291,48 @@ namespace E_Commerce_App
                         vendor.ShowProfile();
                         break;
                     case 100:
-                        Console.WriteLine("Exiting customer menu.");
+                        Console.WriteLine("Exiting Vendors menu.");
+                        break;
+                    default:
+                        Console.WriteLine("Invalid option. Please try again.");
+                        break;
+                }
+            } while (action != 100);
+        }
+        private static void AdminMenu()
+        {
+            int action;
+            do
+            {
+                Console.WriteLine("\nPress the corresponding action number to perform a task:");
+                Console.WriteLine("1: Approve products from the request list");
+                Console.WriteLine("2: View inventory");
+                Console.WriteLine("3: Cleanup of inventory");
+                Console.WriteLine("4: View profile");
+                Console.WriteLine("100: Exit");
+
+                if (!int.TryParse(Console.ReadLine(), out action))
+                {
+                    Console.WriteLine("Invalid input. Please enter a valid number.");
+                    continue;
+                }
+
+                switch (action)
+                {
+                    case 1:
+                        admin.ApproveOrders(RequestList);
+                        break;
+                    case 2:
+                        inventory.DisplayAllAvailableProducts();
+                        break;
+                    case 3:
+                        admin.CleanupInventory(inventory);
+                        break;
+                    case 4:
+                        admin.ShowProfile();
+                        break;
+                    case 100:
+                        Console.WriteLine("Exiting Admin menu.");
                         break;
                     default:
                         Console.WriteLine("Invalid option. Please try again.");
