@@ -136,8 +136,9 @@ namespace E_Commerce_App
             }
             else
             {
-                existingVendor.Login(password, username);
-                VendorMenu(existingVendor);
+                if (existingVendor.Login(password, username))
+                    VendorMenu(existingVendor);
+                else return;
 
             }
 
@@ -157,8 +158,9 @@ namespace E_Commerce_App
             }
             else
             {
-                admin.Login(password, username);
-                AdminMenu();
+                if (admin.Login(password, username))
+                    AdminMenu();
+                else return;
 
             }
 
@@ -200,8 +202,10 @@ namespace E_Commerce_App
             }
             else
             {
-                existingCustomer.Login(password, username);
-                CustomerMenu(existingCustomer);
+                if (existingCustomer.Login(password, username))
+                    CustomerMenu(existingCustomer);
+                else return; 
+                    
 
             }
 
@@ -363,17 +367,18 @@ namespace E_Commerce_App
             string productName = Console.ReadLine();
             Console.Write("Enter the quantity of the product: ");
             double.TryParse(Console.ReadLine(), out double quantity);
-            Console.WriteLine("Enter the price of the product: ");
+            Console.Write("Enter the price of the product: ");
             double.TryParse(Console.ReadLine(), out double price);
-            Console.WriteLine("Enter the quantity Type 1: Kgs 2: nos");
+            Console.Write("Enter the quantity Type 1: Kgs 2: nos");
             int.TryParse(Console.ReadLine(), out int quantityType);
             string type = quantityType == 1 ? "Kgs" : "nos";
 
             //Product product = new Product(productName, price, quantity, type);
             Product product = inventory.SearchProductInInventory(productName);
             if (product != null)
-            {               
-                vendor.AddProductToRequestList(product, RequestList);
+            {
+                Product product1 = new Product(productName, quantity, price, type);
+                vendor.AddProductToRequestList(product1, RequestList);
                 foreach (var item in RequestList)
                 {
                     Console.WriteLine(item.Key);
@@ -382,7 +387,7 @@ namespace E_Commerce_App
             }
             else
             {
-                Product product1 = new Product(productName, price, quantity, type);
+                Product product1 = new Product(productName, quantity, price, type);
                 vendor.AddProductToRequestList(product1, RequestList);
                 Console.WriteLine("Product not found in inventory.");
             }

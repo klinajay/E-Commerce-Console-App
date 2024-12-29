@@ -91,24 +91,53 @@ namespace E_Commerce_App
             if (ValidatePerson(vendorId))
             {
                 totalBill = CalculateTotal(vendorId);
-                Console.WriteLine($"Give {totalBill} rs to the staff.");
+                Console.WriteLine($"Collect {totalBill} rs to the staff after supplying your product.");
                 Thread.Sleep(2000);
                 Console.WriteLine("Generating your bill.");
                 Thread.Sleep(2000);
-                Console.WriteLine($"Payment of {totalBill} rs collected successfuly.");
+                Console.Write($"Enter 1: Payment Collected 2: Payment not collected");
+                while (true)
+                {
+                    if (!int.TryParse(Console.ReadLine(), out int flag))
+                    {
+                        if (flag == 1)
+                        {
+                            Console.WriteLine($"Your order for Rs {totalBill} successfuly completed.");
+                        }
+                        else
+                        {
+                            Console.WriteLine($"Please contact with owner for order fulfilment.");
+                        }
+                        break;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Enter valid value");
+                    }
+                }
                 var inventory = Program.inventory;
 
                
                     if (inventory.inventoryList.ContainsKey(product.productName))
                     {
+                        if (inventory.inventoryList[product.productName].availableQuantity != product.ProductPrice)
 
-                        inventory.inventoryList[product.productName].availableQuantity += product.availableQuantity;
-                        inventory.DisplayAllAvailableProducts();
-                    }
+                        {
+                            Console.WriteLine("Entered in the duplicate product");
+                            Product prod1 = new Product(product.productName, product.availableQuantity, product.ProductPrice, product.quantityType);
+                            prod1.productName = prod1.productName +"_"+ prod1.ProductPrice.ToString();
+                            inventory.AddProductToInventory(prod1);
+                        }
+                        else
+                        {
+                            inventory.inventoryList[product.productName].availableQuantity += product.availableQuantity;
+                            inventory.DisplayAllAvailableProducts();
+
+                        }
+                    }    
                     else
                     {
                         inventory.AddProductToInventory(product);
-
                     }
                 
             }
