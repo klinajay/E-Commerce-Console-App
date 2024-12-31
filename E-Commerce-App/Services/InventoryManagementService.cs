@@ -3,16 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using E_Commerce_App.Data;
+using E_Commerce_App.Models;
 
-namespace E_Commerce_App
+namespace E_Commerce_App.Services
 {
-    internal class ReduceQuantityService
+    internal class InventoryManagementService
     {
-        public bool ReduceQuantityOfProductFromInventory(string productName, double quantity,ref Inventory inventory)
+        public bool ReduceQuantityOfProductFromInventory(string productName, double quantity, ref Inventory inventory)
         {
             if (inventory.inventoryList.ContainsKey(productName))
             {
-                Product product = SearchProduct(productName , inventory.inventoryList);
+                Product product = SearchProduct(productName, inventory.inventoryList);
                 if (product != null)
                 {
                     inventory.inventoryList[productName].availableQuantity -= quantity;
@@ -37,9 +39,9 @@ namespace E_Commerce_App
             }
             return null;
         }
-        public void OnProductAddedToCart(object source , ProductEventArgs args)
+        public void OnProductAddedToCart(object source, ProductEventArgs args)
         {
-            ReduceQuantityOfProductFromInventory(args.productName, args.quantity ,ref args.inventory);
+            ReduceQuantityOfProductFromInventory(args.productName, args.quantity, ref args.inventory);
         }
 
     }

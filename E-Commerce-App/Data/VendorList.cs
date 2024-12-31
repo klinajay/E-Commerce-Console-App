@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using E_Commerce_App.Models;
 
-namespace E_Commerce_App
+namespace E_Commerce_App.Data
 {
     internal class VendorList
     {
         public SortedList<string, Vendor> vendorList;
 
-        public  VendorList()
+        public VendorList()
         {
             vendorList = new SortedList<string, Vendor>();
         }
@@ -21,10 +22,10 @@ namespace E_Commerce_App
             {
                 throw new ArgumentNullException("Vendor cannot be null");
             }
-            if (!vendorList.ContainsKey(vendor.GetVendorId(true)))
+            if (!vendorList.ContainsKey(vendor.VendorId))
             {
-                vendorList.Add(vendor.GetVendorId(true), vendor);
-                Console.WriteLine("Vendor Added Successfuly.");
+                vendorList.Add(vendor.VendorId, vendor);
+                //Console.WriteLine("Vendor Added Successfuly.");
             }
             else
             {

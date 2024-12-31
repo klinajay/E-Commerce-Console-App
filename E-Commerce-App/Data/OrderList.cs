@@ -3,25 +3,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using E_Commerce_App.Models;
 
-namespace E_Commerce_App
+namespace E_Commerce_App.Data
 {
     internal class OrderList
     {
         List<OnlineOrder> onlineOrderList;
 
-        public OrderList() 
+        public OrderList()
         {
             onlineOrderList = new List<OnlineOrder>();
         }
 
-        public void ViewOrdersOfCustomer( string customerId)
+        public void ViewOrdersOfCustomer(string customerId)
         {
-            if(onlineOrderList.Count > 0)
+            if (onlineOrderList.Count > 0)
             {
                 foreach (var item in onlineOrderList)
                 {
-                    if (item.GetCustomer().GetCustomerId().Equals(customerId))
+                    if (item.GetCustomer().CustomerId.Equals(customerId))
                     {
                         foreach (var item2 in item.GetProducts())
                         {

@@ -1,4 +1,6 @@
 ﻿using System;
+using E_Commerce_App.Data;
+using E_Commerce_App.Models;
 
 namespace E_Commerce_App
 {
@@ -125,9 +127,13 @@ namespace E_Commerce_App
         {
 
             Console.Write("Enter your username: ");
-            string username = Console.ReadLine();
+            string? username = Console.ReadLine();
+            if(string.IsNullOrEmpty(username)) {
+                Console.WriteLine("Username null or empty is not acceptable.");
+                return;
+            }
             Console.Write("Enter your password: ");
-            string password = Console.ReadLine();
+            string? password = Console.ReadLine();
 
             if (!vendorList.vendorList.TryGetValue(username, out Vendor existingVendor))
             {
@@ -147,13 +153,18 @@ namespace E_Commerce_App
         {
 
             Console.Write("Enter your username: ");
-            string username = Console.ReadLine();
-            Console.Write("Enter your password: ");
-            string password = Console.ReadLine();
-
-            if (!(admin.GetAdminId(true) == username))
+            string? username = Console.ReadLine();
+            if (string.IsNullOrEmpty(username))
             {
-                Console.WriteLine("User not found. Please create an account first.");
+                Console.WriteLine("Username null or empty is not acceptable.");
+                return;
+            }
+            Console.Write("Enter your password: ");
+            string? password = Console.ReadLine();
+
+            if (!(admin.AdminId == username))
+            {
+                Console.WriteLine("Admin not found. Please create an account first.");
                 return;
             }
             else
@@ -169,17 +180,27 @@ namespace E_Commerce_App
         {
             Console.WriteLine("Enter the following details to create a new account:");
             Console.Write("Name: ");
-            string name = Console.ReadLine();
+            string? name = Console.ReadLine();
+            if (string.IsNullOrEmpty(name))
+            {
+                Console.WriteLine("Name null or empty is not acceptable.");
+                return;
+            }
             Console.Write("Email: ");
-            string email = Console.ReadLine();
+            string? email = Console.ReadLine();
             Console.Write("Phone Number: ");
-            string phoneNumber = Console.ReadLine();
+            string? phoneNumber = Console.ReadLine();
             Console.Write("Age: ");
             int.TryParse(Console.ReadLine(), out int age);
             Console.Write("Username: ");
-            string username = Console.ReadLine();
+            string? username = Console.ReadLine();
             Console.Write("Password: ");
-            string password = Console.ReadLine();
+            string? password = Console.ReadLine();
+            if(string.IsNullOrEmpty(password))
+            {
+                Console.WriteLine("Password null or empty is not acceptable.");
+                return;
+            }
 
             Customer newCustomer = new Customer(name, email, phoneNumber, password, "Customer", age, username);
             customerList.AddCustomer(newCustomer);
@@ -191,9 +212,14 @@ namespace E_Commerce_App
         private static void HandleExistingCustomer()
         {
             Console.Write("Enter your username: ");
-            string username = Console.ReadLine();
+            string? username = Console.ReadLine();
+            if (string.IsNullOrEmpty(username))
+            {
+                Console.WriteLine("Username null or empty is not acceptable.");
+                return;
+            }
             Console.Write("Enter your password: ");
-            string password = Console.ReadLine();
+            string? password = Console.ReadLine();
 
             if (!customerList.customerList.TryGetValue(username, out Customer existingCustomer))
             {
@@ -347,7 +373,7 @@ namespace E_Commerce_App
         private static void AddProductToCartHelper(Customer customer)
         {
             Console.Write("Enter the Name of the product: ");
-            string productName = Console.ReadLine();
+            string? productName = Console.ReadLine();
             Console.Write("Enter the quantity of the product: ");
             double.TryParse(Console.ReadLine(), out double quantity);
 
@@ -365,6 +391,10 @@ namespace E_Commerce_App
         {
             Console.Write("Enter the Name of the product: ");
             string productName = Console.ReadLine();
+            if(string.IsNullOrEmpty(productName)) {
+                Console.WriteLine("Product name null or empty is not acceptible.");
+                return;
+            }
             Console.Write("Enter the quantity of the product: ");
             double.TryParse(Console.ReadLine(), out double quantity);
             Console.Write("Enter the price of the product: ");
@@ -395,14 +425,19 @@ namespace E_Commerce_App
         private static void OnlineOrderHelper(Customer customer)
         {
             Console.Write("Enter your paymentId: ");
-            string paymentId = Console.ReadLine();
+            string? paymentId = Console.ReadLine();
+            if(string.IsNullOrEmpty(paymentId))
+            {
+                Console.WriteLine("PaymentId null or empty is not acceptible.");
+                return;
+            }
             OnlineOrder order = new OnlineOrder(customer, false, paymentId);
-            order.ProceedOrder(customer.GetCustomerId());
+            order.ProceedOrder(customer.CustomerId);
         }
         private static void PhysicalOrderHelper(Customer customer)
         {
             PhysicalOrder order = new PhysicalOrder(customer, false);
-            order.ProceedOrder(customer.GetCustomerId());
+            order.ProceedOrder(customer.CustomerId);
         }
         private static void RemoveProductFromCartHelper(Customer customer)
         {

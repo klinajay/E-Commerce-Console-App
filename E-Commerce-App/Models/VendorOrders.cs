@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using E_Commerce_App.Interfaces;
 
-namespace E_Commerce_App
+namespace E_Commerce_App.Models
 {
     internal class VendorOrders : IOrder
     {
@@ -17,7 +18,7 @@ namespace E_Commerce_App
         {
             this.vendor = vendor;
             this.paymentStatus = paymentStatus;
-            this.totalBill = 0;
+            totalBill = 0;
             this.product = product;
         }
         public Vendor GetVendor()
@@ -50,7 +51,7 @@ namespace E_Commerce_App
             this.totalBill = totalBill;
         }
 
-        public  Product GetProduct()
+        public Product GetProduct()
         {
             return product;
         }
@@ -85,7 +86,7 @@ namespace E_Commerce_App
 
         {
             SortedList<string, Vendor> Vendors = Program.vendorList.vendorList;
-  
+
             Console.WriteLine("Proceeding your order.");
             Thread.Sleep(1500);
             if (ValidatePerson(vendorId))
@@ -117,29 +118,29 @@ namespace E_Commerce_App
                 }
                 var inventory = Program.inventory;
 
-               
-                    if (inventory.inventoryList.ContainsKey(product.productName))
+
+                if (inventory.inventoryList.ContainsKey(product.productName))
+                {
+                    if (inventory.inventoryList[product.productName].availableQuantity != product.ProductPrice)
+
                     {
-                        if (inventory.inventoryList[product.productName].availableQuantity != product.ProductPrice)
-
-                        {
-                            Console.WriteLine("Entered in the duplicate product");
-                            Product prod1 = new Product(product.productName, product.availableQuantity, product.ProductPrice, product.quantityType);
-                            prod1.productName = prod1.productName +"_"+ prod1.ProductPrice.ToString();
-                            inventory.AddProductToInventory(prod1);
-                        }
-                        else
-                        {
-                            inventory.inventoryList[product.productName].availableQuantity += product.availableQuantity;
-                            inventory.DisplayAllAvailableProducts();
-
-                        }
-                    }    
+                        Console.WriteLine("Entered in the duplicate product");
+                        Product prod1 = new Product(product.productName, product.availableQuantity, product.ProductPrice, product.quantityType);
+                        prod1.productName = prod1.productName + "_" + prod1.ProductPrice.ToString();
+                        inventory.AddProductToInventory(prod1);
+                    }
                     else
                     {
-                        inventory.AddProductToInventory(product);
+                        inventory.inventoryList[product.productName].availableQuantity += product.availableQuantity;
+                        inventory.DisplayAllAvailableProducts();
+
                     }
-                
+                }
+                else
+                {
+                    inventory.AddProductToInventory(product);
+                }
+
             }
             else
             {
@@ -155,11 +156,11 @@ namespace E_Commerce_App
             SortedList<string, Vendor> vendors = Program.vendorList.vendorList;
             SortedList<string, Product> inventory = Program.inventory.inventoryList;
             Vendor c1 = vendors[vendorId];
-            Product product1= product;
+            Product product1 = product;
             double result = 0;
-            
-            result += (product.availableQuantity * product.ProductPrice);
-            
+
+            result += product.availableQuantity * product.ProductPrice;
+
             return result;
         }
 

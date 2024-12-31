@@ -5,8 +5,9 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using E_Commerce_App.Models;
 
-namespace E_Commerce_App
+namespace E_Commerce_App.Data
 {
     internal class Inventory
     {
@@ -14,16 +15,16 @@ namespace E_Commerce_App
 
         public Inventory()
         {
-            inventoryList = new SortedList< string , Product>();
-            
+            inventoryList = new SortedList<string, Product>();
+
         }
-        
+
         public void DisplayAllAvailableProducts()
         {
             Console.WriteLine("Product Name      Quantity   Unit   Price");
             Console.WriteLine("-----------------------------------------");
 
-            foreach (KeyValuePair<string, Product> pair in this.inventoryList)
+            foreach (KeyValuePair<string, Product> pair in inventoryList)
             {
                 Console.WriteLine($"{pair.Value.productName,-16} {pair.Value.availableQuantity,-10} {pair.Value.quantityType,-6} {pair.Value.ProductPrice:F2}");
             }
@@ -32,7 +33,7 @@ namespace E_Commerce_App
         public void IncreaseQuantityOfExhistingProduct(Product product)
         {
             inventoryList[product.productName].availableQuantity += product.availableQuantity;
-            
+
         }
         public void IncreaseQuantityOfExhistingProductWithKey(string product, double value)
         {
@@ -41,29 +42,29 @@ namespace E_Commerce_App
         //returns 1 if product already exhists , returns 2 if new product added. 
         public int AddProductToInventory(Product product)
         {
-            if (this.inventoryList.ContainsKey(product.productName))
+            if (inventoryList.ContainsKey(product.productName))
             {
                 IncreaseQuantityOfExhistingProduct(product);
                 return 1;
             }
             else
             {
-                this.inventoryList.Add(product.productName, product);
+                inventoryList.Add(product.productName, product);
                 return 2;
             }
         }
 
         public bool RemoveProductFromInventory(string productName)
         {
-            if(String.IsNullOrEmpty(productName))
+            if (string.IsNullOrEmpty(productName))
             {
                 throw new ArgumentException("product name cannot be null or empty.");
             }
             try
             {
-                if (this.inventoryList.ContainsKey(productName))
+                if (inventoryList.ContainsKey(productName))
                 {
-                    this.inventoryList.Remove(productName);
+                    inventoryList.Remove(productName);
                     Console.WriteLine("Product removed successfully.");
                     return true;
                 }
@@ -72,13 +73,13 @@ namespace E_Commerce_App
                     return false;
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
-                Console.WriteLine("Error while removing product from inventory." , e.Message);
+                Console.WriteLine("Error while removing product from inventory.", e.Message);
                 throw;
-                
+
             }
-            
+
         }
 
         public static int LevenshteinDistance(string source, string target)
@@ -115,29 +116,35 @@ namespace E_Commerce_App
             return dp[n, m];
         }
 
-        public  void DisplayParticularProducts(List<string> products)
+        public void DisplayParticularProducts(List<string> products)
         {
-            foreach(string product  in products)
+            foreach (string product in products)
             {
-                Console.WriteLine($"{this.inventoryList[product].productName}        {this.inventoryList[product].availableQuantity}        {this.inventoryList[product].quantityType}        {this.inventoryList[product].ProductPrice}");
+                Console.WriteLine($"{inventoryList[product].productName}        {inventoryList[product].availableQuantity}        {inventoryList[product].quantityType}        {inventoryList[product].ProductPrice}");
 
             }
         }
 
         public Product SearchProductInInventory(string productName)
+            
         {
-            if (this.inventoryList.ContainsKey(productName))
+            if(string.IsNullOrEmpty(productName))
+            {
+                Console.WriteLine("Product name cannot be null or empty.");
+                return null;
+            }
+            if (inventoryList.ContainsKey(productName))
             {
                 Console.WriteLine("Product Found");
-                Product product = this.inventoryList[productName];
+                Product product = inventoryList[productName];
                 return product;
             }
             else
             {
                 List<string> results = new List<string>();
-                foreach (KeyValuePair<string, Product> pair in this.inventoryList)
+                foreach (KeyValuePair<string, Product> pair in inventoryList)
                 {
-                    int distance = LevenshteinDistance(pair.Key , productName);
+                    int distance = LevenshteinDistance(pair.Key, productName);
                     int maxDistance = Math.Max(productName.Length / 2, pair.Key.Length / 2);
 
                     if (distance <= maxDistance)
@@ -153,9 +160,9 @@ namespace E_Commerce_App
             }
 
         }
-        public bool ReduceQuantityOfProductFromInventory(string productName , double quantity)
+        public bool ReduceQuantityOfProductFromInventory(string productName, double quantity)
         {
-            if (this.inventoryList.ContainsKey(productName))
+            if (inventoryList.ContainsKey(productName))
             {
                 Product product = SearchProductInInventory(productName);
                 if (product != null)
@@ -173,7 +180,7 @@ namespace E_Commerce_App
         }
         public bool IncreaseQuantityOfProductFromInventory(string productName, double quantity)
         {
-            if (this.inventoryList.ContainsKey(productName))
+            if (inventoryList.ContainsKey(productName))
             {
                 Product product = SearchProductInInventory(productName);
                 if (product != null)
@@ -189,7 +196,7 @@ namespace E_Commerce_App
                 return false;
             }
         }
-        
+
 
 
 

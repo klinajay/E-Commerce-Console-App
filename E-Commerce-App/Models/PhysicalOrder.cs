@@ -1,26 +1,24 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.WebSockets;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace E_Commerce_App
+namespace E_Commerce_App.Models
 {
-    internal class OnlineOrder : IOrder
+    internal class PhysicalOrder
     {
         private Customer customer;
         private bool paymentStatus;
-        private string paymentId;
         private double totalBill;
-        private SortedList <string , double> products;
+        private SortedList<string, double> products;
 
-        public OnlineOrder(Customer customer, bool paymentStatus, string paymentId)
+        public PhysicalOrder(Customer customer, bool paymentStatus)
         {
             this.customer = customer;
             this.paymentStatus = paymentStatus;
-            this.paymentId = paymentId;
-            this.totalBill = 0;
+            totalBill = 0;
             products = customer.GetCart();
         }
         public Customer GetCustomer()
@@ -41,16 +39,6 @@ namespace E_Commerce_App
         public void SetPaymentStatus(bool paymentStatus)
         {
             this.paymentStatus = paymentStatus;
-        }
-
-        public string GetPaymentId()
-        {
-            return paymentId;
-        }
-
-        public void SetPaymentId(string paymentId)
-        {
-            this.paymentId = paymentId;
         }
 
         public double GetTotalBill()
@@ -74,7 +62,7 @@ namespace E_Commerce_App
         }
 
         public bool ValidatePerson(string customerId)
-            
+
         {
             SortedList<string, Customer> customers = Program.customerList.customerList;
             if (customers == null)
@@ -101,37 +89,36 @@ namespace E_Commerce_App
             Console.WriteLine(customerId);
             Console.ReadLine();
             Console.WriteLine("Proceeding your order.");
+            Thread.Sleep(1500);
+            if (ValidatePerson(customerId))
+            {
+                totalBill = CalculateTotal(customerId);
+                Console.WriteLine($"Give {totalBill} rs to the staff.");
+                Thread.Sleep(2000);
+                Console.WriteLine("Generating your bill.");
+                Thread.Sleep(2000);
+                Console.WriteLine($"Payment of {totalBill} rs collected successfuly.");
 
-            
+            }
+            else
+            {
+                Console.WriteLine("Error while validating customer");
+            }
 
-                Thread.Sleep(1500);
-                if (ValidatePerson(customerId))
-                {
-                    totalBill = CalculateTotal(customerId);
-                    Console.WriteLine("validating your payment.");
-                    Thread.Sleep(2000);
-                    Console.WriteLine($"Payment of {totalBill} processed successfuly.");
 
-                }
-                else
-                {
-                    Console.WriteLine("Error while validating customer");
-                }
-
-            
         }
 
 
-        public double CalculateTotal( string customerId)
+        public double CalculateTotal(string customerId)
         {
             SortedList<string, Customer> customers = Program.customerList.customerList;
             SortedList<string, Product> inventory = Program.inventory.inventoryList;
             Customer c1 = customers[customerId];
             SortedList<string, double> Cart = c1.GetCart();
             double result = 0;
-            foreach (KeyValuePair<string , double> item in Cart)
+            foreach (KeyValuePair<string, double> item in Cart)
             {
-                result += (item.Value * inventory[item.Key].ProductPrice);
+                result += item.Value * inventory[item.Key].ProductPrice;
             }
             return result;
         }

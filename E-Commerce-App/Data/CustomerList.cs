@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using E_Commerce_App.Models;
 
-namespace E_Commerce_App
+namespace E_Commerce_App.Data
 {
     internal class CustomerList
     {
@@ -22,14 +23,14 @@ namespace E_Commerce_App
             }
             else
             {
-                if (customerList.ContainsKey(customer.GetCustomerId()))
+                if (customerList.ContainsKey(customer.CustomerId))
                 {
                     Console.WriteLine("Customer already exists.");
                 }
                 else
                 {
-                    this.customerList.Add(customer.GetCustomerId(), customer);
-                    Console.WriteLine("Customer added successfuly");
+                    customerList.Add(customer.CustomerId, customer);
+                    //Console.WriteLine("Customer added successfuly");
                 }
             }
         }

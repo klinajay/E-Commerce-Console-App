@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace E_Commerce_App
+namespace E_Commerce_App.Interfaces
 {
     internal interface IOrder
     {
 
-        public void ProceedOrder( string Id);
+        public void ProceedOrder(string Id);
         public bool ValidatePerson(string Id);
         public double CalculateTotal(string Id);
 
